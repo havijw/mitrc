@@ -1,4 +1,7 @@
 beautifulsoup4
+jupyter
 matplotlib
+numpy
+pandas
 requests
 tqdm

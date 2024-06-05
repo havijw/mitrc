@@ -1,12 +1,13 @@
 """
 Methods for fetching Head of the Charles results from RegattaCentral.
+
+Supports 2012-present (prior results are not in RegattaCentral).
 """
 
 from functools import cache
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import requests
-from analysis import get_times
 from bs4 import BeautifulSoup
 
 RC_YEARS = [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2021, 2022, 2023]
@@ -49,10 +50,9 @@ def fetch_results(year: int, event: str) -> list[float]:
         "job_id": REGATTA_IDS[year],
         "event_id": event_id,
     }
-    results = (
+    return (
         requests.get(f"{RC_RESULTS_JSON}?{urlencode(event_params)}")
         .json()
         .get("races")[0]
         .get("results")
     )
-    return get_times(results)
